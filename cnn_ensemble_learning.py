@@ -19,7 +19,7 @@ train_dir = f'{base_dir}/train'
 validation_dir = f'{base_dir}/validation'
 test_dir = f'{base_dir}/test'
 
-# Data augmentation
+# Escalamiento de las imágenes
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=40,
@@ -60,11 +60,9 @@ test_generator = test_datagen.flow_from_directory(
 
 # Creación de los modelos
 def build_model(base_model, num_classes=4):
-    # Congelar las capas del modelo base
     for layer in base_model.layers:
         layer.trainable = False
 
-    # Añadir nuevas capas
     x = base_model.output
     x = GlobalAveragePooling2D()(x)
     x = Dense(1024, activation='relu')(x)
